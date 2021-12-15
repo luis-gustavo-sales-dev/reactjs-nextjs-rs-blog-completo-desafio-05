@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from './styles.module.scss';
 
 export default function Header(): JSX.Element {
@@ -5,9 +6,9 @@ export default function Header(): JSX.Element {
   return (
     <header className={styles.headerContainer}>
       <div className={styles.headerContent}>
-        <a href="/">
+        <Link href="/">
           <img src="/images/logo.svg" alt="logo" />
-        </a>
+        </Link>
       </div>
     </header>
   );
