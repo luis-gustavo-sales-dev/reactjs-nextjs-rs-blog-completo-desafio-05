@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import PostComponent from "../PostComponent";
+import styles from './styles.module.scss';
 
 interface Post {
   uid?: string;
@@ -20,12 +21,12 @@ interface PostComponentProps {
 export default function ListPostsComponent({ posts }: PostComponentProps): JSX.Element {
 
   return (
-    <>
+    <div className={styles.postComponent}>
       {
         posts.map (post => {
           return <PostComponent key={post.uid} post={post} />
         })
       }
-    </>
+    </div>
   )
 }

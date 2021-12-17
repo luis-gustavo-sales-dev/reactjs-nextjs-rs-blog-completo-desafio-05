@@ -1,0 +1,25 @@
+.PostComponent {
+  cursor: pointer;
+
+  h1 {
+    margin-bottom: 8px;
+    font-size: 28px;
+  }
+  span.subtitle {
+    display: block;
+    margin-bottom: 24px;
+    font-size: 18px;
+  }
+  span.author {
+    font-size: 14px;
+    line-height: 17px;
+  }
+  span.date {
+    margin-right: 24px;
+    font-size: 14px;
+    line-height: 17px;
+  }
+  span.icons {
+    margin-right: 8px;
+  }
+}

@@ -7,6 +7,7 @@ import Prismic from '@prismicio/client';
 import { getPrismicClient } from '../services/prismic';
 import ListPostsComponent from '../components/ListPostsComponent/ListPostsComponent';
 import ButtonLoadMorePosts from '../components/ButtonLoadMorePosts';
+import commonStyled from '../styles/common.module.scss'
 
 
 interface Post {
@@ -52,11 +53,10 @@ export default function Home({ postsPagination }: HomeProps) {
   }
 
   return (
-    <>
-
+    <div className={commonStyled.centralizePage}>
       <ListPostsComponent posts={posts} />
       <ButtonLoadMorePosts loadMorePosts={handleClick} nextPage={postsPagination.next_page}/>
-    </>
+    </div>
   );
 }
 

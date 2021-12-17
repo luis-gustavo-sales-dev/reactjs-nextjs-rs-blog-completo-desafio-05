@@ -1,0 +1,11 @@
+.postComponent {
+  div:first-child {
+    margin-top: 65px;
+  }
+  div:last-child {
+    margin-bottom: 65px;
+  }
+  div + div {
+    margin-top: 48px;
+  }
+}
