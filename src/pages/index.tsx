@@ -2,17 +2,11 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable prettier/prettier */
 import { GetStaticProps } from 'next';
-import { RichText } from 'prismic-dom';
-import { format } from 'date-fns';
-import ptBR from 'date-fns/locale/pt-BR';
+import { useState } from 'react';
 import Prismic from '@prismicio/client';
 import { getPrismicClient } from '../services/prismic';
-import commonStyles from '../styles/common.module.scss';
-import styles from './home.module.scss';
-import PostComponent from '../components/PostComponent';
 import ListPostsComponent from '../components/ListPostsComponent/ListPostsComponent';
 import ButtonLoadMorePosts from '../components/ButtonLoadMorePosts';
-import { useState } from 'react';
 
 
 interface Post {
@@ -38,17 +32,22 @@ export default function Home({ postsPagination }: HomeProps) {
 
   const [posts, setPosts] = useState<Post[]>(postsPagination.results)
 
-  console.log(postsPagination)
-  //console.log(posts)
+  // console.log(postsPagination)
+  // console.log(posts)
   async function handleClick () {
     if (postsPagination.next_page) {
       // TEM QUE DAR UM POST COM O FETCH PASSANDO A URL DO NEXT_PAGE
-      const response = await fetch()
-      //const data: PostPagination = await response.json();
-      //console.log(response)
-      //setPosts([...posts, ...data.results]);
+      const response = await fetch('api/posts/',{
+        method: 'POST',
+        body: JSON.stringify({
+          url: postsPagination.next_page,
+        })
+      })
+      // const data: PostPagination = await response.json();
+      const data = await response.json()
+      setPosts([...posts, ...data.results]);
     }
-    console.log(posts)
+    // console.log(posts)
     // setPosts([])
   }
 

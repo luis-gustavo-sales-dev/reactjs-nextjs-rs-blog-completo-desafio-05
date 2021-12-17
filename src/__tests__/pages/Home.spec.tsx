@@ -201,7 +201,7 @@ describe('Home', () => {
 
     screen.getByText('Criando um app CRA do zero');
   });
-/*
+
   it('should not be able to load more posts if not available', async () => {
     const postsPagination = mockedQueryReturn;
     postsPagination.next_page = null;
@@ -214,5 +214,5 @@ describe('Home', () => {
 
     expect(loadMorePostsButton).not.toBeInTheDocument();
   });
-  */
+
 });
