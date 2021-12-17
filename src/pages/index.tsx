@@ -3,10 +3,17 @@
 /* eslint-disable prettier/prettier */
 import { GetStaticProps } from 'next';
 import { RichText } from 'prismic-dom';
+import { format } from 'date-fns';
+import ptBR from 'date-fns/locale/pt-BR';
 import Prismic from '@prismicio/client';
 import { getPrismicClient } from '../services/prismic';
 import commonStyles from '../styles/common.module.scss';
 import styles from './home.module.scss';
+import PostComponent from '../components/PostComponent';
+import ListPostsComponent from '../components/ListPostsComponent/ListPostsComponent';
+import ButtonLoadMorePosts from '../components/ButtonLoadMorePosts';
+import { useState } from 'react';
+
 
 interface Post {
   uid?: string;
@@ -28,10 +35,29 @@ interface HomeProps {
 }
 
 export default function Home({ postsPagination }: HomeProps) {
+
+  const [posts, setPosts] = useState<Post[]>(postsPagination.results)
+
+  console.log(postsPagination)
+  //console.log(posts)
+  async function handleClick () {
+    if (postsPagination.next_page) {
+      // TEM QUE DAR UM POST COM O FETCH PASSANDO A URL DO NEXT_PAGE
+      const response = await fetch()
+      //const data: PostPagination = await response.json();
+      //console.log(response)
+      //setPosts([...posts, ...data.results]);
+    }
+    console.log(posts)
+    // setPosts([])
+  }
+
   return (
-    postsPagination.results.map ( post => {
-      return <li>{post.data.title}</li>
-    })
+    <>
+
+      <ListPostsComponent posts={posts} />
+      <ButtonLoadMorePosts loadMorePosts={handleClick} nextPage={postsPagination.next_page}/>
+    </>
   );
 }
 
@@ -41,13 +67,15 @@ export const getStaticProps: GetStaticProps = async () => {
     Prismic.predicates.at('document.type', 'posts')
   ], {
     fetch: ['posts.title', 'posts.subtitle', 'posts.author'],
-    pageSize: 10,
+    pageSize: 1,
   });
+
+  // console.log(postsResponse)
 
   // console.log(JSON.stringify(postsResponse.results, null, 4))
   const posts = postsResponse.results.map( (post: Post) => {
     return  {
-      slug: post.uid,
+      uid: post.uid,
       first_publication_date: post.first_publication_date,
       data: {
         title: post.data.title,
@@ -57,7 +85,7 @@ export const getStaticProps: GetStaticProps = async () => {
     }
   })
 
-  // console.log(posts)
+  // console.log(posts[0].first_publication_date)
 
   const postsPagination: PostPagination = {
     next_page: postsResponse.next_page,
