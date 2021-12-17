@@ -9,6 +9,7 @@ import { getPrismicClient } from '../../services/prismic';
 import commonStyles from '../../styles/common.module.scss';
 
 import styles from './post.module.scss';
+import { RichText } from 'prismic-dom';
 
 interface Post {
   first_publication_date: string | null;
@@ -67,7 +68,7 @@ export const getStaticPaths = async () => {
   // TODO
   return {
     paths: [...paths],
-    fallback: 'blocking',
+    fallback: true,
   };
 };
 
@@ -81,7 +82,8 @@ export const getStaticProps = async ({ params }: any ) => {
   // Aqui eu deveria converte os dados vindos do response com o modelo extado do tipo post mas não acho que vale o esforço. (por mais que seja mínimo)
   const post: Post = response as Post;
 
-  // console.log(post.data.content);
+  console.log(RichText.asHtml(post.data.content[0].body));
+  //console.log(RichText.asText(post.data.content[0].body));
 
   return {
     props: {

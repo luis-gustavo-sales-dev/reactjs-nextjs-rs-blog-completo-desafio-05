@@ -263,7 +263,7 @@ describe('Post', () => {
     screen.getByText('Cras laoreet mi');
     screen.getByText(/Ut varius quis velit sed cursus/);
   });
-/*
+
   it('should be able to render loading message if fallback', () => {
     mockedUseRouter.mockReturnValueOnce({
       isFallback: true,
@@ -275,5 +275,5 @@ describe('Post', () => {
 
     screen.getByText('Carregando...');
   });
-  */
+
 });

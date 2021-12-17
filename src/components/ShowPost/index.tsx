@@ -1,6 +1,14 @@
 import { format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
+import { RichText } from "prismic-dom";
 import PostContent from "../PostContent";
+
+interface Content {
+  heading: string;
+  body: {
+    text: string;
+  }[];
+}
 
 interface Post {
   first_publication_date: string | null;
@@ -10,22 +18,31 @@ interface Post {
       url: string;
     };
     author: string;
-    content: {
-      heading: string;
-      body: {
-        text: string;
-      }[];
-    }[];
+    content: Content[];
   };
 }
+
+
 interface ShowPostProps {
   post: Post;
 }
 export default function ShowPost({ post }: ShowPostProps): JSX.Element {
+
+  function estimatedTimeToRead(postContent: Content[]): string {
+    const countWordsOnText = postContent.reduce<number>( (acc, currentValue) => {
+      const text = RichText.asText(currentValue.body);
+      return acc + text.split(' ').length;
+    }, 0);
+
+    const minutes = countWordsOnText / 200;
+    return `${String(Math.ceil(minutes))}  min`;
+  }
+
   return (
     <div>
       <h2>{post.data.title}</h2>
       <div>{post.data.author}</div>
+      <div>{estimatedTimeToRead(post.data.content)}</div>
       <div>
         {format(new Date(post.first_publication_date), 'dd MMM yyyy', {
           locale: ptBR,
