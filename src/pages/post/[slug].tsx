@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable prettier/prettier */
 import { GetStaticPaths, GetStaticProps } from 'next';
+import { useRouter } from 'next/router';
+import Prismic from '@prismicio/client';
 import ShowPost from '../../components/ShowPost';
-
 import { getPrismicClient } from '../../services/prismic';
-
 import commonStyles from '../../styles/common.module.scss';
+
 import styles from './post.module.scss';
 
 interface Post {
@@ -28,6 +32,12 @@ interface PostProps {
 }
 
 export default function Post({ post }: PostProps): JSX.Element {
+
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <div>Carregando...</div>;
+  }
   // TODO
   return (
     <>
@@ -37,11 +47,26 @@ export default function Post({ post }: PostProps): JSX.Element {
 }
 
 export const getStaticPaths = async () => {
-//  const prismic = getPrismicClient();
-// const posts = await prismic.query(TODO);
+  const prismic = getPrismicClient();
+  //const posts = await prismic.query([
+
+  const posts = await prismic.query([
+    Prismic.predicates.at('document.type', 'posts')
+  ], {
+    fetch: ['posts.title', 'posts.subtitle', 'posts.author'],
+    pageSize: 1,
+  });
+
+  const paths = posts.results.map(post => {
+    return {
+      params: {
+        slug: post.uid
+      }
+    }
+  })
   // TODO
   return {
-    paths: [],
+    paths: [...paths],
     fallback: 'blocking',
   };
 };
