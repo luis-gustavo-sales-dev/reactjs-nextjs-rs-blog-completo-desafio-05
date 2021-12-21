@@ -82,8 +82,8 @@ export const getStaticProps = async ({ params }: any ) => {
   // Aqui eu deveria converte os dados vindos do response com o modelo extado do tipo post mas não acho que vale o esforço. (por mais que seja mínimo)
   const post: Post = response as Post;
 
-  console.log(RichText.asHtml(post.data.content[0].body));
-  //console.log(RichText.asText(post.data.content[0].body));
+  // console.log(RichText.asHtml(post.data.content[0].body));
+  // console.log(RichText.asText(post.data.content[0].body));
 
   return {
     props: {
